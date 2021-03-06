@@ -1,0 +1,12 @@
+# local .terraform directory
+.terraform/*
+
+# terraform state files
+*.tfstate
+*.tfstate.*
+
+# tf varible files, may include sensiftuv data
+*.tfvars
+
+# ignore logs
+crash.log
