@@ -4,10 +4,10 @@ terraform {
     aws = ">=3.0.0"
   }
   backend "s3" {
-    region  = var.aws_region
+    region  = "us-east-1"
     profile = "default"
-    key     = var.tf_statefile_key
-    bucket  = var.tf_statefile_bucket
+    key     = "terraform-statefile-juansidberry_com"
+    bucket  = "dyx-terraform-tfstates"
   }
 } 
 
