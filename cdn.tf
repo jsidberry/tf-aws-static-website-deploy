@@ -74,3 +74,71 @@ resource "aws_cloudfront_distribution" "website_cdn_root" {
     ]
   }
 }
+
+# Creates the CloudFront distribution to serve the redirection website (if redirection is required)
+resource "aws_cloudfront_distribution" "website_cdn_redirect" {
+  enabled     = true
+  price_class = "PriceClass_All" # Select the correct PriceClass depending on who the CDN is supposed to serve (https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PriceClass.html)
+  aliases     = [var.website-domain-redirect]
+
+  origin {
+    origin_id   = "origin-bucket-${aws_s3_bucket.website_redirect.id}"
+    domain_name = aws_s3_bucket.website_redirect.website_endpoint
+
+    custom_origin_config {
+      http_port              = 80
+      https_port             = 443
+      origin_protocol_policy = "http-only"
+      origin_ssl_protocols   = ["TLSv1", "TLSv1.1", "TLSv1.2"]
+    }
+  }
+
+  default_root_object = "index.html"
+
+  logging_config {
+    bucket = aws_s3_bucket.website_logs.bucket_domain_name
+    prefix = "${var.website-domain-redirect}/"
+  }
+
+  default_cache_behavior {
+    allowed_methods  = ["GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT", "DELETE"]
+    cached_methods   = ["GET", "HEAD"]
+    target_origin_id = "origin-bucket-${aws_s3_bucket.website_redirect.id}"
+    min_ttl          = "0"
+    default_ttl      = "300"
+    max_ttl          = "1200"
+
+    viewer_protocol_policy = "redirect-to-https" # Redirects any HTTP request to HTTPS
+    compress               = true
+
+    forwarded_values {
+      query_string = false
+      cookies {
+        forward = "none"
+      }
+    }
+  }
+
+  restrictions {
+    geo_restriction {
+      restriction_type = "none"
+    }
+  }
+
+  viewer_certificate {
+    acm_certificate_arn = data.aws_acm_certificate.wildcard_website.arn
+    ssl_support_method  = "sni-only"
+  }
+
+  tags = {
+    ManagedBy = "terraform"
+    Changed   = formatdate("YYYY-MM-DD hh:mm ZZZ", timestamp())
+  }
+
+  lifecycle {
+    ignore_changes = [
+      tags,
+      viewer_certificate,
+    ]
+  }
+}
