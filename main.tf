@@ -16,10 +16,3 @@ provider "aws" {
   # access_key = var.aws_access_key
   # secret_key = var.aws_secret_key
 }
-
-module "aws_static_website" {
-  source = "cloudmaniac/static-website/aws"
-
-  website-domain-main     = var.website-domain-main
-  website-domain-redirect = var.website-domain-redirect
-}
