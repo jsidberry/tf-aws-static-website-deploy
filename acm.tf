@@ -1,6 +1,7 @@
 ## ACM (AWS Certificate Manager)
-# Creates the wildcard certificate *.<yourdomain.com>
-# Wilcard certificate used by CloudFront requires this specific region (https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cnames-and-https-requirements.html)
+# Creates the wildcard certificate 
+# Wilcard certificate used by CloudFront requires us-east-1 
+# (https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cnames-and-https-requirements.html)
 resource "aws_acm_certificate" "wildcard_website" {
   # provider = aws.us-east-1
 
@@ -20,10 +21,10 @@ resource "aws_acm_certificate" "wildcard_website" {
 
 # Triggers the ACM wildcard certificate validation event
 resource "aws_acm_certificate_validation" "wildcard_cert" {
-  # provider = aws.us-east-1
+  # provider = aws.region
 
   certificate_arn         = aws_acm_certificate.wildcard_website.arn
-  validation_record_fqdns = [for record in aws_route53_record.wildcard_validation : record.fqdn]
+  validation_record_fqdns = [aws_route53_record.wildcard_validation.fqdn]
 }
 
 # Get the ARN of the issued certificate

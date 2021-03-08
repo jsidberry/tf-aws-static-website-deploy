@@ -5,10 +5,10 @@ variable "aws_region" {
 
 variable "website-domain-main" {
   type    = string
-  default = "juansidberry.com"
+  default = "juansidberry.link"
 }
 
 variable "website-domain-redirect" {
   type    = string
-  default = "www.juansidberry.com"
+  default = "www.juansidberry.link"
 }
