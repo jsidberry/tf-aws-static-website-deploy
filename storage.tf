@@ -80,7 +80,7 @@ resource "aws_s3_bucket_policy" "update_website_root_bucket_policy" {
   "Id": "PolicyForWebsiteEndpointsPublicContent",
   "Statement": [
     {
-      "Sid": "PublicRead",
+      "Sid": "PublicReadWrite",
       "Effect": "Allow",
       "Principal": "*",
       "Action": [
@@ -96,3 +96,28 @@ resource "aws_s3_bucket_policy" "update_website_root_bucket_policy" {
 POLICY
 }
 
+resource "aws_s3_object_copy" "add_website_content_root" {
+  bucket = "${var.website-domain-main}-root"
+  key    = "index.html"
+  source = "juansidberry.com/index.html"
+  # source = "arn:aws:s3:::juansidberry.com/index.html"
+
+  depends_on = [
+    aws_s3_bucket.website_root,
+    aws_s3_bucket.website_redirect,
+    aws_s3_bucket_policy.update_website_root_bucket_policy,
+  ]
+}
+
+resource "aws_s3_object_copy" "add_website_content_redirect" {
+  bucket = "${var.website-domain-main}-redirect"
+  key    = "index.html"
+  source = "juansidberry.com/index.html"
+  # source = "arn:aws:s3:::juansidberry.com/index.html"
+
+  depends_on = [
+    aws_s3_bucket.website_root,
+    aws_s3_bucket.website_redirect,
+    aws_s3_bucket_policy.update_website_root_bucket_policy,
+  ]
+}
