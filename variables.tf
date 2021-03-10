@@ -12,3 +12,8 @@ variable "website-domain-redirect" {
   type    = string
   default = "www.juansidberry.link"
 }
+
+variable "source-website-content" {
+  type = string
+  default = "jsidberry.com"
+}
