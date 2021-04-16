@@ -25,6 +25,10 @@ resource "aws_acm_certificate_validation" "wildcard_cert" {
 
   certificate_arn         = aws_acm_certificate.wildcard_website.arn
   validation_record_fqdns = [aws_route53_record.wildcard_validation.fqdn]
+
+  timeouts {
+    create = "60m"
+  }
 }
 
 # Get the ARN of the issued certificate
