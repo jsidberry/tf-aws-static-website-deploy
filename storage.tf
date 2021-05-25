@@ -13,6 +13,16 @@ resource "aws_s3_bucket" "website_logs" {
   }
 
   lifecycle {
+    abort_incomplete_multipart_upload_days = 0
+    enabled                                = true
+    id                                     = "delete-logs"
+    expiration {
+      days                            = 5
+      expiration_object_delete_marker = false
+    }
+    noncurrent_version_expiration {
+      days = 6
+    }
     ignore_changes = [tags]
   }
 }
