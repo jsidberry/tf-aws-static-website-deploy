@@ -7,6 +7,7 @@ This code deploys a static website to AWS by using:
 3. `Route53`: a DNS service for routing web traffic for the site
 4. `Certificate Manager`: helps make site secure (to an extent)
 
-Must already have a registered domain name on AWS for this to work.
-If you have on another platform, this tf-configurtion will not work and my have some augmentation for the other platform.
+## Dependancies
+* Must already have a registered domain name on AWS for this to work.
+If you have a domain name registered on another platform, this tf-configurtion will not work and may have some augmentation for the other platform.
 
