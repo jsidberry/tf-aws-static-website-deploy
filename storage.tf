@@ -12,7 +12,7 @@ resource "aws_s3_bucket" "website_logs" {
     Changed   = formatdate("YYYY-MM-DD hh:mm ZZZ", timestamp())
   }
 
-  lifecycle {
+  lifecycle_rule {
     abort_incomplete_multipart_upload_days = 0
     enabled                                = true
     id                                     = "delete-logs"
