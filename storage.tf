@@ -18,12 +18,12 @@ resource "aws_s3_bucket" "website_logs" {
     id                                     = "delete-logs"
     expiration {
       days                            = 5
-      expiration_object_delete_marker = false
+      # expiration_object_delete_marker = false
     }
     noncurrent_version_expiration {
       days = 6
     }
-    ignore_changes = [tags]
+    # ignore_changes = [tags]
   }
 }
 
