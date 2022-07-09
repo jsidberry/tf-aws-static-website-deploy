@@ -6,8 +6,8 @@ terraform {
   backend "s3" {
     region  = "us-east-1"
     profile = "default"
-    key     = "terraform-statefile-juansidberry_com"
     bucket  = "dyx-terraform-tfstates-useast1"
+    key     = "terraform-statefile-juansidberry_com"
   }
 }
 
