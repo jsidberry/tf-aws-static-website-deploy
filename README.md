@@ -19,3 +19,7 @@ If you have a domain name registered on another platform, this tf-configurtion w
 So, it looks like the prerequisites are:
 - have an S3 **bucket** and **key** already created. designate it in the `main.tf` files
 - have your AWS credentials already set in your local runtime environment. if not, set them in an environment variable.
+
+## Set up CD Pipeline
+Basically, your pipeline is waiting for something to trigger it. That "thing" here is a commit to the github repo that holds the website code.
+
